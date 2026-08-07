@@ -1,0 +1,5 @@
+@for (goal of todaysGoals; track goal.id) {
+  <app-goal-component [goalId]="goal.id"></app-goal-component>
+} @empty {
+  <p>No goals found!</p>
+}

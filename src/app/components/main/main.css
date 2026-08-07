@@ -1,0 +1,29 @@
+:host {
+  --content-padding: 10px;
+  --sidebar-width: 220px;
+  --banner-height: 60px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  height: var(--banner-height);
+  padding: var(--content-padding);
+  box-shadow: 0px 5px 25px var(--shadow-color);
+}
+
+.content {
+  flex: 1;
+  padding: var(--content-padding);
+}
