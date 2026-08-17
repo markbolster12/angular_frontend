@@ -1,43 +1,39 @@
-import { Service, inject } from '@angular/core';
+import { Service, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Goal, GoalDto, toGoal } from '../data/goal';
+import { map, tap } from 'rxjs/operators';
+import { Goal, GoalDto, CreateGoalDto, toGoal } from '../data/goal';
 
 @Service()
 export class GoalsService {
 
     private http = inject(HttpClient);
 
-    currentDayGoals : Map<string, Goal> = new Map();
+    private readonly currentDayGoals = signal<Map<string, Goal>>(new Map());
 
-    constructor() {
-        let goalsList: Goal[] = [];
-        for(const goal of goalsList.values()) {
-            this.currentDayGoals.set(goal.id, goal);
-        }
-    }
+    readonly goals = computed(() => Array.from(this.currentDayGoals().values()));
 
     getGoal(id: string): Goal|null {
-        let byId: Goal|undefined = this.currentDayGoals.get(id);
-        if(byId === undefined)
-            return null;
-        else
-            return byId;
-
+        return this.currentDayGoals().get(id) ?? null;
     }
 
     getGoalsByDate(date: Date): Observable<Goal[]> {
         // goal-api's /list endpoint doesn't support date filtering yet — returns everything
         return this.http
             .get<GoalDto[]>('/api/goals/list')
-            .pipe(map(dtos => dtos.map(toGoal)));
+            .pipe(
+                map(dtos => dtos.map(toGoal)),
+                tap(goals => this.currentDayGoals.set(new Map(goals.map(goal => [goal.id, goal])))),
+            );
     }
 
-    saveGoal(goal: Goal): Goal {
-        goal.id = crypto.randomUUID();
-        this.currentDayGoals.set(goal.id, goal);
-        return goal;
+    createGoal(dto: CreateGoalDto): Observable<Goal> {
+        return this.http
+            .post<GoalDto>('/api/goals', dto)
+            .pipe(
+                map(toGoal),
+                tap(goal => this.currentDayGoals.update(map => new Map(map).set(goal.id, goal))),
+            );
     }
-  
+
 }

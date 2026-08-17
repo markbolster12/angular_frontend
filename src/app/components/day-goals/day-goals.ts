@@ -1,9 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { Goal } from '../../data/goal';
+import { Component, inject } from '@angular/core';
 import { GoalComponent } from '../goal-component/goal-component';
 import { GoalsService } from '../../services/goals-service';
-import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { GoalForm } from '../goal-form/goal-form';
 
 @Component({
@@ -16,12 +13,22 @@ export class DayGoals {
 
   private goalsService = inject(GoalsService);
 
-  todaysGoals = toSignal(this.goalsService.getGoalsByDate(new Date()), { initialValue: [] as Goal[] });
+  // reads the service's shared signal, so it updates automatically whenever
+  // any component (e.g. GoalForm) creates a goal through the same service instance
+  todaysGoals = this.goalsService.goals;
 
   showCreate = false;
 
+  constructor() {
+    this.goalsService.getGoalsByDate(new Date()).subscribe();
+  }
+
   toggleCreate() {
     this.showCreate = !this.showCreate;
+  }
+
+  onGoalCreated() {
+    this.showCreate = false;
   }
 
 }

@@ -1,25 +1,27 @@
-export interface Goal {
-    id: string,
-    name: string,
-    details: string,
-    date: Date,
-    completed: boolean
-}
+import type { components } from './generated/goal-api';
 
-// matches goal-api's GoalDto record exactly: no `date` field yet, `title` not `name`
-export interface GoalDto {
+export interface Goal {
     id: string,
     title: string,
     details: string,
+    beginAt: Date,
+    deadline: Date,
+    createdAt: Date,
     completed: boolean
 }
 
+// generated from goal-api's OpenAPI spec — all fields optional since the schema marks them so
+export type GoalDto = components['schemas']['GoalDto'];
+export type CreateGoalDto = components['schemas']['CreateGoalDTO'];
+
 export function toGoal(dto: GoalDto): Goal {
     return {
-        id: dto.id,
-        name: dto.title,
-        details: dto.details,
-        completed: dto.completed,
-        date: new Date(), // backend doesn't return a date yet
+        id: dto.id ?? '',
+        title: dto.title ?? '',
+        details: dto.details ?? '',
+        completed: dto.completed ?? false,
+        beginAt: dto.beginAt ? new Date(dto.beginAt) : new Date(),
+        deadline: dto.deadline ? new Date(dto.deadline) : new Date(),
+        createdAt: dto.createdAt ? new Date(dto.createdAt) : new Date(),
     };
 }

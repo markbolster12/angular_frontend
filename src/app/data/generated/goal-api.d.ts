@@ -11,7 +11,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: operations["getGoals"];
         put?: never;
         post: operations["createGoal"];
         delete?: never;
@@ -27,7 +27,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["getGoals"];
+        get: operations["getGoals_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -40,10 +40,19 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        CreateGoalDTO: {
+            title?: string;
+            details?: string;
+            beginAt?: string;
+            deadline?: string;
+        };
         GoalDto: {
             id?: string;
             title?: string;
             details?: string;
+            beginAt?: string;
+            deadline?: string;
+            createdAt?: string;
             completed?: boolean;
         };
     };
@@ -55,6 +64,29 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    getGoals: {
+        parameters: {
+            query: {
+                startTime: string;
+                endTime: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GoalDto"][];
+                };
+            };
+        };
+    };
     createGoal: {
         parameters: {
             query?: never;
@@ -64,7 +96,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["GoalDto"];
+                "application/json": components["schemas"]["CreateGoalDTO"];
             };
         };
         responses: {
@@ -79,7 +111,7 @@ export interface operations {
             };
         };
     };
-    getGoals: {
+    getGoals_1: {
         parameters: {
             query?: never;
             header?: never;
