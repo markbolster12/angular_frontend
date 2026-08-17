@@ -1,28 +1,18 @@
-import { Service } from '@angular/core';
-import { Goal } from '../data/goal';
+import { Service, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Goal, GoalDto, toGoal } from '../data/goal';
 
 @Service()
 export class GoalsService {
 
+    private http = inject(HttpClient);
+
     currentDayGoals : Map<string, Goal> = new Map();
 
     constructor() {
-        let goalsList: Goal[] = [
-            {
-                'id': '1',
-                'date': new Date(),
-                'name': 'Goal 1',
-                'details': 'This is a goal details',
-                'completed': false
-            },
-            {
-                'id': '3',
-                'date': new Date(),
-                'name': 'Goal 3',
-                'details': 'This is a goal details',
-                'completed': false
-            }
-        ];
+        let goalsList: Goal[] = [];
         for(const goal of goalsList.values()) {
             this.currentDayGoals.set(goal.id, goal);
         }
@@ -37,10 +27,17 @@ export class GoalsService {
 
     }
 
-    getGoalsByDate(date: Date): Goal[] {
-        //Fake data
-        return [...this.currentDayGoals.values()];
+    getGoalsByDate(date: Date): Observable<Goal[]> {
+        // goal-api's /list endpoint doesn't support date filtering yet — returns everything
+        return this.http
+            .get<GoalDto[]>('/api/goals/list')
+            .pipe(map(dtos => dtos.map(toGoal)));
+    }
 
+    saveGoal(goal: Goal): Goal {
+        goal.id = crypto.randomUUID();
+        this.currentDayGoals.set(goal.id, goal);
+        return goal;
     }
   
 }

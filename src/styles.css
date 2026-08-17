@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'tailwindcss';
+@plugin "@tailwindcss/forms" {
+  strategy: class;
+}
+
 
 body {
   font-family: 'Be Vietnam Pro', sans-serif;
@@ -9,3 +13,8 @@ body {
   color: white;
 }
 
+@layer components {
+  .input-primary {
+    @apply bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-200;
+  }
+}

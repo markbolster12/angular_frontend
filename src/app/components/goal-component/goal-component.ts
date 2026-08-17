@@ -9,19 +9,12 @@ import { GoalsService } from '../../services/goals-service';
   styleUrl: 'goal-component.css',
 })
 export class GoalComponent {
-  goalsService = inject(GoalsService);
-  goalId = input<string>('');
-  goal : Goal|null = null;
+  goal = input.required<Goal>();
 
   constructor() {
     
   }
 
   ngOnInit() {
-    this.goal = this.goalsService.getGoal(this.goalId());
-    console.log(this.goalId() + '');
   }
-  
-
-
 }

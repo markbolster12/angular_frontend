@@ -1,5 +1,10 @@
-@for (goal of todaysGoals; track goal.id) {
-  <app-goal-component [goalId]="goal.id"></app-goal-component>
+@for (goal of todaysGoals(); track goal.name) {
+  <app-goal-component [goal]="goal"></app-goal-component>
 } @empty {
   <p>No goals found!</p>
 }
+
+@if (showCreate) {
+  <app-goal-form></app-goal-form>
+}
+<button (click)="toggleCreate()">{{showCreate?"Cancel":"Add Goal"}}</button>
