@@ -24,9 +24,4 @@ COPY --from=build /app/dist/first-app/browser /usr/share/nginx/html
 ENV BACKEND_HOST=goalsapp
 ENV BACKEND_PORT=8080
 
-# Makes nginx's stock entrypoint export NGINX_LOCAL_RESOLVERS (read from this container's
-# own /etc/resolv.conf, i.e. the cluster's real DNS) for the `resolver` directive in
-# nginx/default.conf.template — see the comment there for why this matters.
-ENV NGINX_ENTRYPOINT_LOCAL_RESOLVERS=1
-
 EXPOSE 80
