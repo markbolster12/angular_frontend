@@ -17,7 +17,7 @@ COPY --from=build /app/dist/first-app/browser /usr/share/nginx/html
 # Where the backend is reachable from inside this container — override at `docker run`
 # (-e BACKEND_HOST=... -e BACKEND_PORT=...) or via the k8s Deployment's env, see
 # devops/frontend/deployment.yaml. Defaults match the backend's in-cluster Service name.
-ENV BACKEND_HOST=goalsservice
+ENV BACKEND_HOST=goalsapp
 ENV BACKEND_PORT=8080
 
 EXPOSE 80
