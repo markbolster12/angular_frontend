@@ -1,0 +1,15 @@
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: goal-frontend
+spec:
+  # NodePort needs no ingress controller or cloud load-balancer — reach it at
+  # http://<any-node-ip>:<nodePort> (find nodePort with `kubectl get svc goal-frontend`).
+  # Swap to LoadBalancer or add an Ingress if your cluster has one set up.
+  type: NodePort
+  selector:
+    app: goal-frontend
+  ports:
+    - port: 80
+      targetPort: 80

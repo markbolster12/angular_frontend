@@ -2,7 +2,8 @@ import { Service, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Goal, GoalDto, CreateGoalDto, toGoal } from '../data/goal';
+import { Goal, GoalDto, CreateGoalDto, GoalStatus, UpdateGoalStatusDto, toGoal } from '../data/goal';
+import { RecurringGoalDto, CreateRecurringGoalDto } from '../data/recurring-goal';
 
 @Service()
 export class GoalsService {
@@ -17,10 +18,11 @@ export class GoalsService {
         return this.currentDayGoals().get(id) ?? null;
     }
 
-    getGoalsByDate(date: Date): Observable<Goal[]> {
-        // goal-api's /list endpoint doesn't support date filtering yet — returns everything
+    getGoalsByDateRange(start: Date, end: Date): Observable<Goal[]> {
         return this.http
-            .get<GoalDto[]>('/api/goals/list')
+            .get<GoalDto[]>('/api/goals', {
+                params: { startTime: start.toISOString(), endTime: end.toISOString() },
+            })
             .pipe(
                 map(dtos => dtos.map(toGoal)),
                 tap(goals => this.currentDayGoals.set(new Map(goals.map(goal => [goal.id, goal])))),
@@ -34,6 +36,20 @@ export class GoalsService {
                 map(toGoal),
                 tap(goal => this.currentDayGoals.update(map => new Map(map).set(goal.id, goal))),
             );
+    }
+
+    updateGoalStatus(id: string, status: GoalStatus): Observable<Goal> {
+        const dto: UpdateGoalStatusDto = { status };
+        return this.http
+            .patch<GoalDto>(`/api/goals/${id}/status`, dto)
+            .pipe(
+                map(toGoal),
+                tap(goal => this.currentDayGoals.update(map => new Map(map).set(goal.id, goal))),
+            );
+    }
+
+    createRecurringGoal(dto: CreateRecurringGoalDto): Observable<RecurringGoalDto> {
+        return this.http.post<RecurringGoalDto>('/api/recurring-goals', dto);
     }
 
 }

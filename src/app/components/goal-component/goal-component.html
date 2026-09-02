@@ -1,3 +1,19 @@
-<div class="goal-card">
-    <input type="checkbox" class="h-4 w-4 accent-indigo-600 rounded"><h1>{{goal().title}}</h1>
+<div class="goal-card" [class.goal-card--completed]="goal().status === 'COMPLETED'">
+    <input
+        type="checkbox"
+        class="goal-card__checkbox accent-violet-600 rounded"
+        [checked]="goal().status === 'COMPLETED'"
+        (change)="onStatusChange($event)"
+    />
+    <span class="goal-card__title">{{goal().title}}</span>
+    @if (!hideStartDate() && !isSameDate(goal().beginAt, goal().deadline)) {
+        <span class="goal-card__begin" title="Start date">
+            <mat-icon class="goal-card__begin-icon" aria-hidden="true">outlined_flag</mat-icon>
+            {{goal().beginAt | date: 'MMM d'}}
+        </span>
+    }
+    <span class="goal-card__deadline" title="Deadline">
+        <mat-icon class="goal-card__deadline-icon" aria-hidden="true">flag</mat-icon>
+        {{goal().deadline | date: 'MMM d'}}
+    </span>
 </div>

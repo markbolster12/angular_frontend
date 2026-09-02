@@ -1,12 +1,53 @@
 .goal-card {
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem;
+    border-radius: var(--mat-sys-corner-medium);
+    background: var(--mat-sys-surface-container-low);
+    transition: background-color 150ms ease;
 }
 
-h1 {
-    font-size: 24px;
-    margin-left: 10px;
+.goal-card:hover {
+    background: var(--mat-sys-surface-container);
 }
-input {
-    float:left
+
+.goal-card__checkbox {
+    flex-shrink: 0;
+    width: 1.1rem;
+    height: 1.1rem;
+    cursor: pointer;
+}
+
+.goal-card__title {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.goal-card__begin,
+.goal-card__deadline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    color: var(--mat-sys-on-surface-variant);
+}
+
+.goal-card__begin-icon,
+.goal-card__deadline-icon {
+    width: 0.9rem;
+    height: 0.9rem;
+    font-size: 0.9rem;
+}
+
+.goal-card--completed .goal-card__title {
+    color: var(--mat-sys-on-surface-variant);
+    text-decoration: line-through;
 }

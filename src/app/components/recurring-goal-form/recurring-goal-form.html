@@ -1,0 +1,72 @@
+<form class="recurring-form" [formGroup]="recurringGoalFormGroup" (ngSubmit)="onSubmit()">
+    <mat-form-field class="recurring-form__field">
+        <mat-label>Goal</mat-label>
+        <input matInput formControlName="title" />
+    </mat-form-field>
+
+    <mat-form-field class="recurring-form__field">
+        <mat-label>Details</mat-label>
+        <textarea matInput formControlName="details" rows="3"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="recurring-form__field">
+        <mat-label>Starts</mat-label>
+        <input matInput formControlName="start" [matDatepicker]="startPicker">
+        <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #startPicker></mat-datepicker>
+    </mat-form-field>
+
+    <div class="recurring-form__row">
+        <span class="recurring-form__row-label">Repeats every</span>
+        <mat-form-field class="recurring-form__interval">
+            <input matInput type="number" min="1" formControlName="interval">
+        </mat-form-field>
+        <mat-form-field class="recurring-form__frequency">
+            <mat-select formControlName="frequency">
+                <mat-option value="DAILY">day(s)</mat-option>
+                <mat-option value="WEEKLY">week(s)</mat-option>
+                <mat-option value="MONTHLY">month(s)</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    @if (isWeekly) {
+        <div class="recurring-form__days">
+            @for (day of weekdays; track day.value) {
+                <button
+                    type="button"
+                    class="recurring-form__day"
+                    [class.recurring-form__day--active]="isDaySelected(day.value)"
+                    (click)="toggleDay(day.value)"
+                >{{day.label}}</button>
+            }
+        </div>
+    }
+
+    <div class="recurring-form__ends">
+        <span class="recurring-form__row-label">Ends</span>
+        <mat-radio-group formControlName="end" class="recurring-form__radio-group">
+            <mat-radio-button value="NEVER">Never</mat-radio-button>
+            <mat-radio-button value="ON_DATE">On date</mat-radio-button>
+            <mat-radio-button value="AFTER_OCCURRENCES">After</mat-radio-button>
+        </mat-radio-group>
+
+        @if (endType === 'ON_DATE') {
+            <mat-form-field class="recurring-form__field">
+                <mat-label>End date</mat-label>
+                <input matInput formControlName="endDate" [matDatepicker]="endPicker">
+                <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #endPicker></mat-datepicker>
+            </mat-form-field>
+        }
+
+        @if (endType === 'AFTER_OCCURRENCES') {
+            <mat-form-field class="recurring-form__occurrences">
+                <mat-label>Occurrences</mat-label>
+                <input matInput type="number" min="1" formControlName="occurrences">
+            </mat-form-field>
+        }
+    </div>
+
+    <button class="recurring-form__submit" type="submit" [disabled]="recurringGoalFormGroup.invalid">Create Recurring Goal</button>
+</form>

@@ -1,0 +1,130 @@
+.goal-list__filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    max-width: 32rem;
+    margin: 0 auto 0.75rem;
+}
+
+.goal-list__filter-label {
+    min-width: 11rem;
+    text-align: center;
+    font: var(--mat-sys-label-large);
+    color: var(--mat-sys-on-surface);
+}
+
+.goal-list__filter-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--mat-sys-corner-full);
+    border: 1px solid var(--mat-sys-outline-variant);
+    background: var(--mat-sys-surface);
+    color: var(--mat-sys-primary);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 150ms ease;
+}
+
+.goal-list__filter-nav:hover {
+    background: var(--mat-sys-surface-container);
+}
+
+.goal-list__filter-reset {
+    padding: 0.35rem 0.9rem;
+    border-radius: var(--mat-sys-corner-full);
+    border: 1px solid var(--mat-sys-outline-variant);
+    background: var(--mat-sys-surface);
+    color: var(--mat-sys-primary);
+    font: var(--mat-sys-label-large);
+    cursor: pointer;
+    transition: background-color 150ms ease;
+}
+
+.goal-list__filter-reset:hover {
+    background: var(--mat-sys-surface-container);
+}
+
+.goal-list__days {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    max-width: 32rem;
+    margin: 0 auto 0.75rem;
+}
+
+.goal-list__day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+    width: 2.5rem;
+    padding: 0.35rem 0;
+    border-radius: var(--mat-sys-corner-medium);
+    border: 1px solid var(--mat-sys-outline-variant);
+    background: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.goal-list__day:hover {
+    background: var(--mat-sys-surface-container);
+}
+
+.goal-list__day-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--mat-sys-on-surface-variant);
+}
+
+.goal-list__day-number {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.goal-list__day--active {
+    background: var(--mat-sys-primary);
+    border-color: var(--mat-sys-primary);
+    color: var(--mat-sys-on-primary);
+}
+
+.goal-list__day--active .goal-list__day-label {
+    color: var(--mat-sys-on-primary);
+}
+
+.goal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    max-width: 32rem;
+    margin: 0 auto;
+}
+
+.goal-list__empty {
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--mat-sys-on-surface-variant);
+}
+
+.goal-list__add-btn {
+    display: block;
+    margin: 0.75rem auto 0;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--mat-sys-corner-full);
+    border: 1px solid var(--mat-sys-outline-variant);
+    background: var(--mat-sys-surface);
+    color: var(--mat-sys-primary);
+    font: var(--mat-sys-label-large);
+    cursor: pointer;
+    transition: background-color 150ms ease;
+}
+
+.goal-list__add-btn:hover {
+    background: var(--mat-sys-surface-container);
+}

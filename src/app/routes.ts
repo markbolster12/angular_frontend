@@ -1,7 +1,9 @@
 import { Routes } from '@angular/router';
 import { Home } from './components/home/home';
 import { DayGoals } from './components/day-goals/day-goals';
-import { GoalForm } from './components/goal-form/goal-form';
+import { GoalHistory } from './components/goal-history/goal-history';
+import { RecurringGoalForm } from './components/recurring-goal-form/recurring-goal-form';
+import { GoalTree } from './components/goal-tree/goal-tree';
 
 const routeConfig: Routes = [ 
     {
@@ -19,9 +21,19 @@ const routeConfig: Routes = [
         'title': 'Todays Goals'
     },
     {
-        'path': 'goals/new',
-        'component': GoalForm,
-        'title': 'New Goal'
+        'path': 'goals/history',
+        'component': GoalHistory,
+        'title': 'Goal History'
+    },
+    {
+        'path': 'goals/recurring/new',
+        'component': RecurringGoalForm,
+        'title': 'New Recurring Goal'
+    },
+    {
+        'path': 'goals/tree',
+        'component': GoalTree,
+        'title': 'Goal Tree'
     },
 
 ]

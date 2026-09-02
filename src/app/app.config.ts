@@ -8,8 +8,16 @@
 
 import {ApplicationConfig} from '@angular/core';
 import {provideHttpClient, withFetch} from '@angular/common/http';
-import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideHttpClient(withFetch()), provideAnimationsAsync()],
+  providers: [
+    provideHttpClient(withFetch()),
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      // Outlined fields with tight, content-driven hint/error spacing read as
+      // cleaner and less "boxy" than Material's default filled appearance.
+      useValue: {appearance: 'outline', subscriptSizing: 'dynamic'},
+    },
+  ],
 };

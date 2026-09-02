@@ -1,0 +1,93 @@
+.recurring-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 30rem;
+    margin: 0 auto;
+}
+
+.recurring-form__field {
+    width: 100%;
+}
+
+.recurring-form__row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.recurring-form__row-label {
+    font-size: 0.85rem;
+    color: var(--mat-sys-on-surface-variant);
+    white-space: nowrap;
+}
+
+.recurring-form__interval {
+    width: 4.5rem;
+}
+
+.recurring-form__frequency {
+    flex: 1 1 auto;
+}
+
+.recurring-form__days {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.recurring-form__day {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--mat-sys-corner-full);
+    border: 1px solid var(--mat-sys-outline-variant);
+    background: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.recurring-form__day:hover {
+    background: var(--mat-sys-surface-container);
+}
+
+.recurring-form__day--active {
+    background: var(--mat-sys-primary);
+    border-color: var(--mat-sys-primary);
+    color: var(--mat-sys-on-primary);
+}
+
+.recurring-form__ends {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.recurring-form__radio-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.recurring-form__occurrences {
+    width: 8rem;
+}
+
+.recurring-form__submit {
+    align-self: flex-start;
+    margin-top: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--mat-sys-corner-full);
+    border: none;
+    background: var(--mat-sys-primary);
+    color: var(--mat-sys-on-primary);
+    font: var(--mat-sys-label-large);
+    cursor: pointer;
+    transition: opacity 150ms ease;
+}
+
+.recurring-form__submit:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}

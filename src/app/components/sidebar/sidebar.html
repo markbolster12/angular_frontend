@@ -1,13 +1,20 @@
-<nav class="flex flex-col pt-3">
-    <ul class="px-3">
+<nav class="sidebar-nav">
+    <div class="sidebar-nav__brand">Goals</div>
+    <ul class="sidebar-nav__list">
         <li>
-            <a routerLink="/home" routerLinkActive="active">Home</a>
+            <a class="sidebar-nav__link" routerLink="/home" routerLinkActive="sidebar-nav__link--active">Home</a>
         </li>
         <li>
-            <a routerLink="/today" routerLinkActive="active">Today's Goals</a> 
+            <a class="sidebar-nav__link" routerLink="/today" routerLinkActive="sidebar-nav__link--active">Today's Goals</a>
         </li>
         <li>
-            <a routerLink="/goals/new" routerLinkActive="active">New Goal</a> 
+            <a class="sidebar-nav__link" routerLink="/goals/history" routerLinkActive="sidebar-nav__link--active">Goal History</a>
+        </li>
+        <li>
+            <a class="sidebar-nav__link" routerLink="/goals/recurring/new" routerLinkActive="sidebar-nav__link--active">Recurring Goal</a>
+        </li>
+        <li>
+            <a class="sidebar-nav__link" routerLink="/goals/tree" routerLinkActive="sidebar-nav__link--active">Goal Tree</a>
         </li>
     </ul>
 </nav>

@@ -4,6 +4,22 @@
  */
 
 export interface paths {
+    "/api/recurring-goals": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getRecurringGoals"];
+        put?: never;
+        post: operations["createRecurringGoal"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/goals": {
         parameters: {
             query?: never;
@@ -18,6 +34,22 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/goals/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["updateStatus"];
         trace?: never;
     };
     "/api/goals/list": {
@@ -40,6 +72,38 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        CreateRecurringGoalDTO: {
+            title?: string;
+            details?: string;
+            startDate?: string;
+            /** @enum {string} */
+            frequency?: "DAILY" | "WEEKLY" | "MONTHLY";
+            /** Format: int32 */
+            interval?: number;
+            daysOfWeek?: ("MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY")[];
+            /** @enum {string} */
+            endType?: "NEVER" | "ON_DATE" | "AFTER_OCCURRENCES";
+            endDate?: string;
+            /** Format: int32 */
+            occurrences?: number;
+        };
+        RecurringGoalDto: {
+            id?: string;
+            title?: string;
+            details?: string;
+            startDate?: string;
+            /** @enum {string} */
+            frequency?: "DAILY" | "WEEKLY" | "MONTHLY";
+            /** Format: int32 */
+            interval?: number;
+            daysOfWeek?: ("MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY")[];
+            /** @enum {string} */
+            endType?: "NEVER" | "ON_DATE" | "AFTER_OCCURRENCES";
+            endDate?: string;
+            /** Format: int32 */
+            occurrences?: number;
+            createdAt?: string;
+        };
         CreateGoalDTO: {
             title?: string;
             details?: string;
@@ -53,7 +117,12 @@ export interface components {
             beginAt?: string;
             deadline?: string;
             createdAt?: string;
-            completed?: boolean;
+            /** @enum {string} */
+            status?: "ACTIVE" | "COMPLETED";
+        };
+        UpdateGoalStatusDTO: {
+            /** @enum {string} */
+            status?: "ACTIVE" | "COMPLETED";
         };
     };
     responses: never;
@@ -64,6 +133,50 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    getRecurringGoals: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RecurringGoalDto"][];
+                };
+            };
+        };
+    };
+    createRecurringGoal: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateRecurringGoalDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RecurringGoalDto"];
+                };
+            };
+        };
+    };
     getGoals: {
         parameters: {
             query: {
@@ -97,6 +210,32 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["CreateGoalDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GoalDto"];
+                };
+            };
+        };
+    };
+    updateStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateGoalStatusDTO"];
             };
         };
         responses: {

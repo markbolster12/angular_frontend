@@ -1,0 +1,26 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goal-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: goal-frontend
+  template:
+    metadata:
+      labels:
+        app: goal-frontend
+    spec:
+      containers:
+        - name: goal-frontend
+          image: goal-frontend:latest
+          ports:
+            - containerPort: 80
+          env:
+            # Must match the backend's actual Service name/port in this cluster.
+            - name: BACKEND_HOST
+              value: goal-api
+            - name: BACKEND_PORT
+              value: "8080"

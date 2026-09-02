@@ -1,35 +1,43 @@
-<div class="flex flex-col">
-    <form [formGroup]="goalFormGroup" (ngSubmit)="onSubmit()">
-        <div>
-            <mat-form-field>
-                <mat-label>Goal</mat-label>
-                <input matInput formControlName="title" class=""/>
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field class="example-full-width">
-                <mat-label>Begin</mat-label>
-                <input matInput formControlName="start" [matDatepicker]="startPicker">
-                <mat-hint>MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
-                <mat-datepicker touchUi #startPicker></mat-datepicker>
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field>
-                <mat-label>Deadline</mat-label>
-                <input matInput formControlName="deadline" [matDatepicker]="deadlinePicker">
-                <mat-hint>MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="deadlinePicker"></mat-datepicker-toggle>
-                <mat-datepicker touchUi #deadlinePicker></mat-datepicker>
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field>
-                <mat-label>Details</mat-label>
-                <textarea matInput formControlName="details" class="input-primary"></textarea>
-            </mat-form-field>
-        </div>
-        <button type="submit" [disabled]="goalFormGroup.invalid">Submit</button>
-    </form>
-</div>
+<form class="goal-form" [formGroup]="goalFormGroup" (ngSubmit)="onSubmit()">
+    <mat-form-field class="goal-form__field">
+        <mat-label>Goal</mat-label>
+        <input matInput formControlName="title"/>
+    </mat-form-field>
+
+    <mat-slide-toggle class="goal-form__toggle" formControlName="useSeparateDates">
+        Use separate start and deadline dates
+    </mat-slide-toggle>
+
+    @if (!useSeparateDates) {
+        <mat-form-field class="goal-form__field">
+            <mat-label>Date</mat-label>
+            <input matInput formControlName="date" [matDatepicker]="datePicker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #datePicker></mat-datepicker>
+        </mat-form-field>
+    } @else {
+        <mat-form-field class="goal-form__field">
+            <mat-label>Begin</mat-label>
+            <input matInput formControlName="start" [matDatepicker]="startPicker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #startPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="goal-form__field">
+            <mat-label>Deadline</mat-label>
+            <input matInput formControlName="deadline" [matDatepicker]="deadlinePicker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="deadlinePicker"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #deadlinePicker></mat-datepicker>
+        </mat-form-field>
+    }
+
+    <mat-form-field class="goal-form__field">
+        <mat-label>Details</mat-label>
+        <textarea matInput formControlName="details" rows="3"></textarea>
+    </mat-form-field>
+
+    <button class="goal-form__submit" type="submit" [disabled]="goalFormGroup.invalid">Submit</button>
+</form>

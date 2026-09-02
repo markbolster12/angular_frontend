@@ -5,7 +5,7 @@ import { Main } from './components/main/main';
 @Component({
   selector: 'app-root',
   imports: [Main],
-  template: `<app-main class="h-full">`,
+  template: `<app-main>`,
   styleUrls: ['./app.css'],
 })
 export class App {

@@ -1,29 +1,19 @@
 :host {
-  --content-padding: 10px;
-  --sidebar-width: 220px;
-  --banner-height: 60px;
+    display: block;
 }
 
 .layout {
-  display: grid;
-  grid-template-columns: var(--sidebar-width) 1fr;
-  min-height: 100vh;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100vh;
+}
+
+.sidebar {
+    background: var(--mat-sys-primary);
 }
 
 .page {
-  display: flex;
-  flex-direction: column;
-}
-
-.banner {
-  display: flex;
-  align-items: center;
-  height: var(--banner-height);
-  padding: var(--content-padding);
-  box-shadow: 0px 5px 25px var(--shadow-color);
-}
-
-.content {
-  flex: 1;
-  padding: var(--content-padding);
+    min-width: 0;
+    padding: 1.5rem 2rem;
+    background: var(--mat-sys-surface);
 }
