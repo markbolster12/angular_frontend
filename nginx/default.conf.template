@@ -5,6 +5,14 @@ server {
     root /usr/share/nginx/html;
     index index.html;
 
+    # Re-resolve the backend's DNS name periodically instead of once at startup. Without
+    # this, nginx resolves proxy_pass at config-load time only: it refuses to start if the
+    # backend Service isn't resolvable yet, and never notices if the backend's pod IP
+    # changes later (e.g. a rollout) until nginx itself restarts. NGINX_LOCAL_RESOLVERS
+    # comes from the cluster's own /etc/resolv.conf — see NGINX_ENTRYPOINT_LOCAL_RESOLVERS
+    # in the Dockerfile.
+    resolver ${NGINX_LOCAL_RESOLVERS} valid=10s;
+
     # Angular client-side routing — unmatched paths fall through to the app shell.
     location / {
         try_files $uri $uri/ /index.html;
@@ -13,8 +21,11 @@ server {
     # Same-origin reverse proxy to the backend, so the browser never needs to know its
     # address and the backend never needs CORS. BACKEND_HOST/BACKEND_PORT are substituted
     # from the container's environment by nginx's built-in envsubst-on-templates entrypoint.
+    # The variable (rather than a literal proxy_pass target) is what forces the `resolver`
+    # directive above to actually be used, instead of resolving once at startup.
     location /api/ {
-        proxy_pass http://${BACKEND_HOST}:${BACKEND_PORT};
+        set $backend "${BACKEND_HOST}:${BACKEND_PORT}";
+        proxy_pass http://$backend;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
